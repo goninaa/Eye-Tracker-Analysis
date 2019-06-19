@@ -5,6 +5,7 @@ design = '1'
 data = ()
 
 index = pd.MultiIndex.from_product([[id_num], [design]],
+
                                    names=['ID', 'design']) 
 columns = pd.MultiIndex.from_product([['time', 'condition', 'aveH', 'aveV']],
                                     names = [None])
