@@ -8,4 +8,4 @@ import seaborn as sns
 
 from params import *
 
-# 
+# calling the data
