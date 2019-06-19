@@ -81,32 +81,9 @@ class IdData:
         self.create_fixation_df()
         self.create_cond_df()
         self.merge_df()
-
-
-    # class IdData:
-    #     """ data frame of all designs of one ID 
-    #     (from several ProcessData) """
-    #     def __init__(self, df1, df2):
-    #         self.id_num = fixations.id_num
-    #         self.design = fixations.design
-    #         self.df_fixations = None
-    #         self.df_cond = None
-    #         self.df_id = None
-
-    #         self.designs = ()
-    #         self.df_all_designs = None
-
-    #     def merge_df (self):
-    #         """ merge two ProcessData.merge_df of same ID into one multi-index
-    #         data frame """
-
-    #         df = self.df2.merge(self.df_cond, on = 'time')
-    #         # df = df.dropna()
-    #         # self.df_id = df.set_index(['ID', 'design'])
-    #         self.df_all_designs = df
     
 class AllId:
-    """ data frame of all IDs repetitions.
+    """ data frame of all IDs designs.
     from several IdData """
     def __init__(self, df1, df2):
         self.df1 = df1
@@ -118,8 +95,7 @@ class AllId:
         data frame """
         df_all = pd.concat ([self.df1, self.df2])
         # df = self.df1.merge(self.df2)
-        # df = df.dropna()
-        # self.df_id = df.set_index(['ID', 'design'])
+        df = df.dropna()
         self.df_all = df_all
         
 if __name__ == "__main__":
@@ -140,7 +116,12 @@ if __name__ == "__main__":
 
     data2 = IdData(fix_obj2, event_obj2)
     data2.run()
-  # print (data1.fixations)
+  
+    big_data = AllId (data1.df_id, data2.df_id)
+    big_data.merge_df()
+    print (big_data.df_all)
+
+    # print (data1.fixations)
     # data1.create_fixation_df()
     # # print (data1.df_fixations)
     # # print (data1.events)
@@ -148,7 +129,4 @@ if __name__ == "__main__":
     # # print (data1.df_events)
     # data1.merge_df()
     # print (data2.df_id)
-    big_data = AllId (data1.df_id, data2.df_id)
-    big_data.merge_df()
-    print (big_data.df_all)
 
