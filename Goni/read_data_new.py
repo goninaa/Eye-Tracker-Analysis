@@ -32,7 +32,7 @@ class ProcessData:
         df['design'] = self.design
         time_periods = pd.DataFrame({'time': pd.RangeIndex(start = df.startTime.min(), stop = df.endTime.max())}) #create all time-stamps
         df = time_periods.merge(df, how='left', left_on='time', right_on='startTime').fillna(method='pad') #merge
-        mask = (df['time'] > df['startTime']) & (df['time'] < df['endTime'])
+        mask = (df['time'] >= df['startTime']) & (df['time'] <= df['endTime'])
         df = df.where(mask)
         df = df.dropna()
         df.pop('startTime')
@@ -46,23 +46,23 @@ class ProcessData:
         df = self.events
         start = df[df['message'].str.contains('BLOCK_START')]
         end = df[df['message'].str.contains('STIM_DISP_END')]
+        block = df[df['message'].str.contains('BLOCK_END')]
+        df = df[~df.message.str.contains("BLOCK_END")]
         df['start'] = start['time']
         df['end'] = end['time']
         df['condition'] = df.message.str.split(':').str[2]
+        df = df.fillna(method= 'pad')
+        df = df.rename(index=str, columns={"time": "orignal_time"})
+
+        time_periods = pd.DataFrame({'time': pd.RangeIndex(start = df.start.min(), stop = df.end.max())})
+        df = time_periods.merge(df, how='left', left_on='time', right_on='start').fillna(method='pad') #merge
+        mask = (df['time'] >= df['start']) & (df['time'] <= df['end'])
+        df = df.where(mask)
+        df = df.dropna()
+        df.pop('orignal_time')
+        # df.pop('start')
+        # df.pop('end')
         self.df_events = df
-
-    # def unpack_cond_list (self):
-    #     conds = self.cond
-
-    #     # for i in cond:
-    #     pass
-
-    # def cond_df(self):
-    #     df['condition'] = df['message'].split(':')[2]
-        # text = 'aaa:bbb:ccc'
-        # str_split = df['message'].split(':')[2]
-        # cond = str_split[2]
-
 
 
     def concat_df (self):
