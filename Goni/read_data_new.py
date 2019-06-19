@@ -22,7 +22,8 @@ class ProcessData:
         self.df_fixations = None
 
     def convert_fixations_to_df (self):
-        """ convert fixations file to df with multi index"""
+        """ convert fixations file to df with multi index include ID and
+        design """
                                 
         df = self.fixations
         df['ID'] = self.id_num
