@@ -15,11 +15,16 @@ class EyeFile:
     design = attr.ib(validator=instance_of(str))
     data_type = attr.ib(validator=instance_of(str))
 
-#########################################################################
-folder = Path('CSV/FB') # get folder or filelist from GUI.
-filelist = [file for file in folder.glob('*.csv')] # don't process sub-folders
-# filelist = [file for file in folder.rglob('*.csv')] # process sub-folder
-#########################################################################
+#########################################################
+# manual data, would be replaced by the GUI             #
+folder = Path('CSV/FB')                                 #
+filelist = [file for file in folder.glob('*.csv')]      #
+ref_images = [  Path('FB_on_full_screen_Body.jpg'),     #
+                Path('FB_on_full_screen_Face.jpg'),     #
+                Path('FB_on_full_screen_Person.jpg')]   #
+resolution = 1080*1920                                  #
+fix_point = (960, 237)                                  #
+#########################################################
 
 @attr.s
 class ProcessFilelist:
@@ -52,16 +57,14 @@ class ProcessFilelist:
             else:
                 self.invalid_files.append(fname)
                 continue
-            
-            eyeitem = EyeFile(path, subj_id, design, data_type)
+            eyeitem = EyeFile(path=path, fname=fname, experiment=experiment, id_num=id_num, design=design, data_type=data_type)
             try:
                 self.eyelist[f'{id_num}_{design}'][data_type] = eyeitem
             except KeyError:
                 self.eyelist[f'{id_num}_{design}'] = {data_type: eyeitem}
 
 
-# if __name__ == "__main__":
-#     fix = Path('CSV/FB/FB_integration_ID_01_design_1_time_04.11.18_11.43_fixations.csv')
-#     event = Path('CSV/FB/FB_integration_ID_01_design_1_time_04.11.18_11.43_messages.csv')
-#     fix_obj = EyeFile(path=fix, fname=fix.name, id_num='01', design='1', data_type='fixations')
-#     event_obj = EyeFile(path=event, fname=fix.name, id_num='01', design='1', data_type='events')
+if __name__ == "__main__":
+    files = ProcessFilelist(filelist)
+    files.instantiate_eye_file()
+    print(files.eyelist)
