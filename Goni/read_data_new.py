@@ -71,10 +71,8 @@ class ProcessData:
     def merge_df (self):
         """ merge conditions and fixations dataframes into one multi-index
         data frame, with ID and design """
-        # df = pd.concat ([self.df_fixations, self.df_events], axis=1, sort = True)
-        # df = pd.concat ([self.df_fixations, self.df_events], axis = 1)
         df = self.df_fixations.merge(self.df_cond, on = 'time')
-        # df = df.dropna()
+        df = df.dropna()
         self.df_id = df
         self.df_id = df.set_index(['ID', 'design'])
 
@@ -86,8 +84,23 @@ class ProcessData:
 
 
     class IdData:
-        """ data frame of all repetitions of one ID """
-        pass
+        """ data frame of all designs of one ID """
+        def __init__(self, fixations, events):
+            self.fixations = pd.read_csv(fixations.path)
+            self.events = pd.read_csv(events.path)
+            self.id_num = fixations.id_num
+            self.design = fixations.design
+            self.df_fixations = None
+            self.df_cond = None
+            self.df_id = None
+
+        def merge_df (self):
+            """ merge two ProcessData.merge_df of same ID into one multi-index
+            data frame """
+            df = self.df_fixations.merge(self.df_cond, on = 'time')
+            # df = df.dropna()
+            self.df_id = df
+            self.df_id = df.set_index(['ID', 'design'])
         
         
 if __name__ == "__main__":
