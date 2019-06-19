@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from pathlib import Path
+import matplotlib.image as mpimg
 
 from params import *
 
@@ -25,17 +26,26 @@ def get_from_Goni():
 def get_2d():
     raw_x = df['aveH'].to_numpy().ravel()
     raw_y = df['aveV'].to_numpy().ravel()
-    bins = fix_res
+    bins = [1080/10,1920/10]
     data_2d, bins_x, bins_y = np.histogram2d(raw_x, raw_y, bins=bins)
     return data_2d
-     
+
+def make_padle(df):
+    raw_x = df['aveH'].to_numpy().ravel()
+    raw_y = df['aveV'].to_numpy().ravel()
+    sns.kdeplot(raw_x, raw_y)
+    
+
+
+
 if __name__ == "__main__":
     
     df= get_from_Goni()
-    data2d= get_2d()
-
+    data_2d= get_2d()
+    con_image = mpimg.imread(fname_photo)
+    padle = make_padle(df)
     fig, ax = plt.subplots()
-    ax.imshow(data_2d, cmap='gray')
+    ax.imshow(padle, cmap='gray')
     plt.show()
 
 

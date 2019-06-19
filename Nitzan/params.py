@@ -1,7 +1,7 @@
 
 # parameters for the visalization of the data:
 conditions = ['']
-fname_photos = ['']
+fname_photo = 'FB_on_full_screen_Person.jpg'
 
 # photo resulotion:
 fix_res = [1080,1920]
