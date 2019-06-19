@@ -85,6 +85,7 @@ class IdData:
 class AllId:
     """ data frame of all IDs designs.
     from several IdData """
+    # def __init__(self, *args):
     def __init__(self, df1, df2):
         self.df1 = df1
         self.df2 = df2
@@ -95,7 +96,7 @@ class AllId:
         data frame """
         df_all = pd.concat ([self.df1, self.df2])
         # df = self.df1.merge(self.df2)
-        df = df.dropna()
+        df_all = df_all.dropna()
         self.df_all = df_all
         
 if __name__ == "__main__":
