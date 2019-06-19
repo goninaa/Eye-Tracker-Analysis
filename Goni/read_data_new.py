@@ -37,8 +37,10 @@ class ProcessData:
         df = df.dropna()
         df.pop('startTime')
         df.pop('endTime')
+        # df = df.set_index(['ID', 'design'])
+        self.df_fixations = df
         # df.drop(['startTime', 'endTime'], axis=1)
-        self.df_fixations = df.set_index(['ID', 'design'])
+        # self.df_fixations = df.set_index(['ID', 'design'])
 
     def read_events (self):
         """ """
@@ -52,6 +54,8 @@ class ProcessData:
         df['condition'] = df.loc[:, 'message'].str.split(':').str[2]
         df = df.fillna(method= 'pad')
         df = df.rename(index=str, columns={"time": "orignal_time"})
+        # df['ID'] = self.id_num
+        # df['design'] = self.design
 
         time_periods = pd.DataFrame({'time': pd.RangeIndex(start = df.start.min(), stop = df.end.max())})
         df = time_periods.merge(df, how='left', left_on='time', right_on='start').fillna(method='pad') #merge
@@ -61,13 +65,19 @@ class ProcessData:
         df.pop('orignal_time')
         df.pop('start')
         df.pop('end')
+        df.pop('message')
+        # df = df.set_index(['ID', 'design'])
         self.df_events = df
 
 
-    # def concat_df (self):
-    #     """ concat two df """
-    #     self.df_id = pd.concat ([self.df_fixations, self.df_events], axis=1, sort = True)
-    #     self.df_id = self.df_id.dropna()
+    def concat_df (self):
+        """ concat two df """
+        # df = pd.concat ([self.df_fixations, self.df_events], axis=1, sort = True)
+        # df = pd.concat ([self.df_fixations, self.df_events], axis = 1)
+        df = self.df_fixations.merge(self.df_events, on = 'time')
+        # df = df.dropna()
+        self.df_id = df
+        self.df_id = df.set_index(['ID', 'design'])
         
         
 if __name__ == "__main__":
