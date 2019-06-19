@@ -15,4 +15,4 @@ class EyeFile:
 fix = Path('CSV/FB/FB_integration_ID_01_design_1_time_04.11.18_11.43_fixations.csv')
 event = Path('CSV/FB/FB_integration_ID_01_design_1_time_04.11.18_11.43_messages.csv')
 fix_obj = EyeFile(path=fix, fname=fix.name, id_num='01', design='1', data_type='fixations')
-event_obj = EyeFile(path=event, fname=fix.name, id_num='01', design='1', data_type='events')
+event_obj = EyeFile(path=event, fname=event.name, id_num='01', design='1', data_type='events')
