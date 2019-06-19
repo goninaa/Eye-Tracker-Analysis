@@ -10,5 +10,7 @@ from params import *
 
 # calling the data
 from multiindex_file import example_data
+data = example_data
 
-# Grouping by [x,y]
+
+#histgraming:
