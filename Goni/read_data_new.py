@@ -21,7 +21,7 @@ class ProcessData:
         self.design = fixations.design
         self.df_fixations = None
         self.df_events = None
-        self.cond = events.cond
+        # self.cond = events.cond
 
     def convert_fixations_to_df (self):
         """ convert fixations file to df with multi index include ID and
@@ -46,14 +46,22 @@ class ProcessData:
         df = self.events
         start = df[df['message'].str.contains('BLOCK_START')]
         end = df[df['message'].str.contains('STIM_DISP_END')]
-        cond = 
         df['start'] = start['time']
         df['end'] = end['time']
+        df['condition'] = df.message.str.split(':').str[2]
         self.df_events = df
 
-    def unpack_cond_list (self):
-        cond_list = self.cond
-       
+    # def unpack_cond_list (self):
+    #     conds = self.cond
+
+    #     # for i in cond:
+    #     pass
+
+    # def cond_df(self):
+    #     df['condition'] = df['message'].split(':')[2]
+        # text = 'aaa:bbb:ccc'
+        # str_split = df['message'].split(':')[2]
+        # cond = str_split[2]
 
 
 
