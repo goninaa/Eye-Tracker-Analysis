@@ -22,10 +22,7 @@ class ProcessData:
     def convert_fixations_to_df (self):
     """ convert file to readeble df"""
     # index = pd.MultiIndex.from_product([[self.id_num], [self.design]],
-    #                                 names=['ID', 'design']) 
-    index = pd.MultiIndex.from_tuples(indexes,names = ['ID','design'])
-    columns = pd.MultiIndex.from_product([['time', 'condition', 'aveH', 'aveV']],
-                                    names = [None])                                
+    #                                 names=['ID', 'design'])                              
     df = self.fixations
     df['ID'] = self.id_num
     df['design'] = self.design
@@ -35,13 +32,8 @@ class ProcessData:
     df = df.where(mask)
     df = df.dropna()
     df.drop(['start', 'end'], axis=1
-    df.set_index(['ID', 'design'])
+    self.df_fixations = df.set_index(['ID', 'design'])
 
-    self.df_fixations = pd.DataFrame(data, index=index, columns=columns)
-
-    
-    
-    
 
     def concat_df (self):
         """ concat two df """
