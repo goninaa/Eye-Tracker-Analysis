@@ -14,12 +14,14 @@ from mock_EyeFile_pair import *
 class ProcessData:
     """ Pipeline to process twin Data instances  ,EyeFile"""
     # def __init__(self, fixations: fixations, events: events ):
-    def __init__(self, fixations, events ):
+    def __init__(self, fixations, events):
         self.fixations = pd.read_csv(fixations.path)
         self.events = pd.read_csv(events.path)
         self.id_num = fixations.id_num
         self.design = fixations.design
         self.df_fixations = None
+        self.df_events = None
+        self.cond = events.cond
 
     def convert_fixations_to_df (self):
         """ convert fixations file to df with multi index include ID and
@@ -38,11 +40,28 @@ class ProcessData:
         # df.drop(['startTime', 'endTime'], axis=1)
         self.df_fixations = df.set_index(['ID', 'design'])
 
+    def read_events (self):
+        """ """
+
+        df = self.events
+        start = df[df['message'].str.contains('BLOCK_START')]
+        end = df[df['message'].str.contains('STIM_DISP_END')]
+        cond = 
+        df['start'] = start['time']
+        df['end'] = end['time']
+        self.df_events = df
+
+    def unpack_cond_list (self):
+        cond_list = self.cond
+       
+
+
 
     def concat_df (self):
         """ concat two df """
         # self.df_files = pd.concat ([df_event, df_eye], axis=1, sort = True)
         # self.df_files = self.df_files.dropna()
+        pass
         
 if __name__ == "__main__":
 
@@ -54,7 +73,11 @@ if __name__ == "__main__":
     data1 = ProcessData(fix_obj, event_obj)
     # print (data1.fixations)
     data1.convert_fixations_to_df()
-    print (data1.df_fixations)
+    # print (data1.df_fixations)
+
+    # print (data1.events)
+    data1.read_events()
+    print (data1.df_events)
 
 
 
