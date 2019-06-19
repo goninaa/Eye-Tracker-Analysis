@@ -12,7 +12,8 @@ from mock_EyeFile_pair import *
 #         pd.read_csv(fname)
 
 class ProcessData:
-    """ Pipeline to process twin Data instances  ,EyeFile"""
+    """ Pipeline to process data of one ID on one design
+    (both fixations and conditions)"""
     # def __init__(self, fixations: fixations, events: events ):
     def __init__(self, fixations, events):
         self.fixations = pd.read_csv(fixations.path)
@@ -20,12 +21,11 @@ class ProcessData:
         self.id_num = fixations.id_num
         self.design = fixations.design
         self.df_fixations = None
-        self.df_events = None
+        self.df_cond = None
         self.df_id = None
 
-    def convert_fixations_to_df (self):
-        """ convert fixations file to df with multi index include ID and
-        design """
+    def create_fixation_df (self):
+        """ convert fixations file to data frame """
                                 
         df = self.fixations.copy()
         df['ID'] = self.id_num
@@ -42,9 +42,8 @@ class ProcessData:
         # df.drop(['startTime', 'endTime'], axis=1)
         # self.df_fixations = df.set_index(['ID', 'design'])
 
-    def read_events (self):
-        """ """
-
+    def create_cond_df (self):
+        """ create conditions data frame """
         df = self.events.copy()
         start = df.loc[df.loc[:, 'message'].str.contains('BLOCK_START'), :]
         end = df.loc[df.loc[:, 'message'].str.contains('STIM_DISP_END'), :]
@@ -67,17 +66,22 @@ class ProcessData:
         df.pop('end')
         df.pop('message')
         # df = df.set_index(['ID', 'design'])
-        self.df_events = df
+        self.df_cond = df
 
 
-    def concat_df (self):
-        """ concat two df """
+    def merge_df (self):
+        """ merge conditions and fixations dataframes into one multi-index
+        data frame, with ID and design """
         # df = pd.concat ([self.df_fixations, self.df_events], axis=1, sort = True)
         # df = pd.concat ([self.df_fixations, self.df_events], axis = 1)
-        df = self.df_fixations.merge(self.df_events, on = 'time')
+        df = self.df_fixations.merge(self.df_cond, on = 'time')
         # df = df.dropna()
         self.df_id = df
         self.df_id = df.set_index(['ID', 'design'])
+
+    class IdData:
+        """ data frame of all repetitions of one ID """
+        pass
         
         
 if __name__ == "__main__":
@@ -89,13 +93,13 @@ if __name__ == "__main__":
 
     data1 = ProcessData(fix_obj, event_obj)
     # print (data1.fixations)
-    data1.convert_fixations_to_df()
+    data1.create_fixation_df()
     # print (data1.df_fixations)
 
     # print (data1.events)
-    data1.read_events()
+    data1.create_cond_df()
     # print (data1.df_events)
-    data1.concat_df()
+    data1.merge_df()
     print (data1.df_id)
 
 
