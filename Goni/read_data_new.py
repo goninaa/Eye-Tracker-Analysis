@@ -11,16 +11,26 @@ from attr.validators import instance_of
 #         pd.read_csv(fname)
 
 class ProcessData:
-    """ Pipeline to process twin Data instances """
-    def __init__(self, files: EyeFile):
-        self.files = datacont
-        self.fixations = pd.read_csv(self._fname_eyes)
-        self.result = {}
-        self.metadata = datacont.metadata
+    """ Pipeline to process twin Data instances  ,EyeFile"""
+    def __init__(self, fixations: fixations, events: events ):
+        self.fixations = pd.read_csv(fixations.path)
+        self.events = pd.read_csv(events.path)
+        # self.result = {}
+        # self.metadata = datacont.metadata
+
+    def convert_to_df (self):
+    """ convert file to readeble df"""
+    pass
+
+    def concat_df (self):
+        """ concat two df """
+        # self.df_files = pd.concat ([df_event, df_eye], axis=1, sort = True)
+        # self.df_files = self.df_files.dropna()
         
-    def process(self):
-        """ Mock processing pipeline """
-        self.result['sum'] = self.datacont.sum()
-        means = [x.mean() for x in self.datacont.data]
-        self.result['mean'] = means
-        return self.result
+    # exmple:
+    # def process(self):
+    #     """ Mock processing pipeline """
+    #     self.result['sum'] = self.datacont.sum()
+    #     means = [x.mean() for x in self.datacont.data]
+    #     self.result['mean'] = means
+    #     return self.result
