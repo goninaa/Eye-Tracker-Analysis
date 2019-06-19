@@ -22,19 +22,19 @@ class ProcessData:
         self.df_fixations = None
 
     def convert_fixations_to_df (self):
-        """ convert file to readeble df"""
-        # index = pd.MultiIndex.from_product([[self.id_num], [self.design]],
-        #                                 names=['ID', 'design'])                              
+        """ convert fixations file to df with multi index"""
+                                
         df = self.fixations
         df['ID'] = self.id_num
         df['design'] = self.design
-        # time_periods = pd.DataFrame({'time': pd.date_range(start = df.startTime.min(), end = df.endTime.max(), freq = 'S')}) #create all time-stamps
         time_periods = pd.DataFrame({'time': pd.RangeIndex(start = df.startTime.min(), stop = df.endTime.max())}) #create all time-stamps
         df = time_periods.merge(df, how='left', left_on='time', right_on='startTime').fillna(method='pad') #merge
         mask = (df['time'] > df['startTime']) & (df['time'] < df['endTime'])
         df = df.where(mask)
         df = df.dropna()
-        df.drop(['startTime', 'endTime'], axis=1)
+        df.pop('startTime')
+        df.pop('endTime')
+        # df.drop(['startTime', 'endTime'], axis=1)
         self.df_fixations = df.set_index(['ID', 'design'])
 
 
