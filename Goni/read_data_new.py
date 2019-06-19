@@ -23,8 +23,9 @@ class ProcessData:
     """ convert file to readeble df"""
     # index = pd.MultiIndex.from_product([[self.id_num], [self.design]],
     #                                 names=['ID', 'design']) 
-    # columns = pd.MultiIndex.from_product([['time', 'condition', 'aveH', 'aveV']],
-    #                                 names = [None])                                
+    index = pd.MultiIndex.from_tuples(indexes,names = ['ID','design'])
+    columns = pd.MultiIndex.from_product([['time', 'condition', 'aveH', 'aveV']],
+                                    names = [None])                                
     df = self.fixations
     df['ID'] = self.id_num
     df['design'] = self.design
@@ -36,7 +37,7 @@ class ProcessData:
     df.drop(['start', 'end'], axis=1
     df.set_index(['ID', 'design'])
 
-    # self.df_fixations = pd.DataFrame(data, index=index, columns=columns)
+    self.df_fixations = pd.DataFrame(data, index=index, columns=columns)
 
     
     

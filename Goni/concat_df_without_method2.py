@@ -33,23 +33,41 @@ df_eye.pop('end')
 df_eye['ID'] = 'ID_num'
 df_eye['design'] = 'design_num'
 
+# df_eye.set_index([df_eye['ID']],[df_eye['design']])
+# df_eye.index = ([df_eye['ID']],[df_eye['design']])
+# df_eye.index = df_eye['design']
+# indexes = [df_eye['ID']],[df_eye['design']]
+
+# df_eye.set_index(['ID', 'design'], inplace = True, 
+#                             append = False, drop = False) 
+
+index = pd.MultiIndex.from_product([['id_num'], ['design_num']],
+                                    names=['ID', 'design']) 
+# index = pd.MultiIndex.from_tuples(indexes,names = ['ID','design'])
+columns = pd.MultiIndex.from_product([['time', 'condition', 'aveH', 'aveV']],
+                                names = [None]) 
+df_eye_new = pd.DataFrame(df_eye, index=index, columns=columns)
+
+# df_eye2 = df_eye.reindex (index)
+df_eye_new.append(df_eye).reset_index().set_index(keys=['ID', 'design'])
+
 
 print (df_eye)
 # print (df_eye_new)
 
 
-time_periods_event = pd.DataFrame({'time': pd.date_range(start = df_event.start.min(), end = df_event.end.max(), freq = 'S')}) #create all time-stamps
-df_event = time_periods_event.merge(df_event, how='left', left_on='time', right_on='start').fillna(method='pad') #merge
-mask_event = (df_event['time'] > df_event['start']) & (df_event['time'] < df_event['end'])
-df_event = df_event.where(mask_event)
-df_event = df_event.dropna()
-df_event.pop('start')
-df_event.pop('end')
-df_event.index = df_event['time']
-df_event.pop('time')
-# print (df_event)
+# time_periods_event = pd.DataFrame({'time': pd.date_range(start = df_event.start.min(), end = df_event.end.max(), freq = 'S')}) #create all time-stamps
+# df_event = time_periods_event.merge(df_event, how='left', left_on='time', right_on='start').fillna(method='pad') #merge
+# mask_event = (df_event['time'] > df_event['start']) & (df_event['time'] < df_event['end'])
+# df_event = df_event.where(mask_event)
+# df_event = df_event.dropna()
+# df_event.pop('start')
+# df_event.pop('end')
+# df_event.index = df_event['time']
+# df_event.pop('time')
+# # print (df_event)
 
-df_all = pd.concat ([df_event, df_eye], axis=1, sort = True)
-df_all = df_all.dropna()
+# df_all = pd.concat ([df_event, df_eye], axis=1, sort = True)
+# df_all = df_all.dropna()
 
-print (df_all.iloc[70:200])
+# print (df_all.iloc[70:200])
