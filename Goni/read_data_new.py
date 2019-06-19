@@ -25,17 +25,11 @@ class ProcessData:
     df = self.fixations
     time_periods = pd.DataFrame({'time': pd.date_range(start = df.startTime.min(), end = df.endTime.max(), freq = 'S')}) #create all time-stamps
     df = time_periods.merge(df, how='left', left_on='time', right_on='start').fillna(method='pad') #merge
-    # print (new_eye.iloc[70:150])
     mask = (df['time'] > df['start']) & (df['time'] < df['end'])
     df = df.where(mask)
     df = df.dropna()
-    # print (fixed_eye.iloc[70:150])
-    # df.pop('start')
-    # df.pop('end')
-    # df.index = df_eye['time']
     df.drop(['start', 'end'], axis=1
-    # df.pop('time')
-    # print (df_eye)
+    
     
 
     def concat_df (self):
