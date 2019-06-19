@@ -43,14 +43,14 @@ class ProcessData:
     def read_events (self):
         """ """
 
-        df = self.events
-        start = df[df['message'].str.contains('BLOCK_START')]
-        end = df[df['message'].str.contains('STIM_DISP_END')]
-        block = df[df['message'].str.contains('BLOCK_END')]
-        df = df[~df.message.str.contains("BLOCK_END")]
-        df['start'] = start['time']
-        df['end'] = end['time']
-        df['condition'] = df.message.str.split(':').str[2]
+        df = self.events.copy()
+        start = df.loc[df.loc[:, 'message'].str.contains('BLOCK_START'), :]
+        end = df.loc[df.loc[:, 'message'].str.contains('STIM_DISP_END'), :]
+        # block = df.loc[df['message'].str.contains('BLOCK_END'), :]
+        df = df.loc[~df.loc[:, 'message'].str.contains('BLOCK_END'), :]
+        df['start'] = start.loc[:, 'time']
+        df['end'] = end.loc[:, 'time']
+        df['condition'] = df.loc[:, 'message'].str.split(':').str[2]
         df = df.fillna(method= 'pad')
         df = df.rename(index=str, columns={"time": "orignal_time"})
 
@@ -60,8 +60,8 @@ class ProcessData:
         df = df.where(mask)
         df = df.dropna()
         df.pop('orignal_time')
-        # df.pop('start')
-        # df.pop('end')
+        df.pop('start')
+        df.pop('end')
         self.df_events = df
 
 
