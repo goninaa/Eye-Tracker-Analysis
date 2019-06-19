@@ -33,9 +33,26 @@ df_eye.pop('end')
 df_eye['ID'] = 'ID_num'
 df_eye['design'] = 'design_num'
 
+# df_eye.set_index([df_eye['ID']],[df_eye['design']])
+# df_eye.index = ([df_eye['ID']],[df_eye['design']])
+# df_eye.index = df_eye['design']
+# indexes = [df_eye['ID']],[df_eye['design']]
 
-mi_dfeye = df_eye.set_index(['ID', 'design'])
-print(mi_dfeye)
+# df_eye.set_index(['ID', 'design'], inplace = True, 
+#                             append = False, drop = False) 
+
+index = pd.MultiIndex.from_product([['id_num'], ['design_num']],
+                                    names=['ID', 'design']) 
+# index = pd.MultiIndex.from_tuples(indexes,names = ['ID','design'])
+columns = pd.MultiIndex.from_product([['time', 'condition', 'aveH', 'aveV']],
+                                names = [None]) 
+df_eye_new = pd.DataFrame(df_eye, index=index, columns=columns)
+
+# df_eye2 = df_eye.reindex (index)
+df_eye_new.append(df_eye).reset_index().set_index(keys=['ID', 'design'])
+
+
+print (df_eye)
 # print (df_eye_new)
 
 
