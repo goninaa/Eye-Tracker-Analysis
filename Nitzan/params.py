@@ -10,6 +10,5 @@ fix_y = [0,1920]
 photo_x = [0,1080]
 photo_y = [0,1920]
 
-
 # data:
-fname_data = 'Goni/multiindex.py'
+fname_data = multiindex
