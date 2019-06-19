@@ -32,11 +32,11 @@ class ProcessData:
     # print (fixed_eye.iloc[70:150])
     # df.pop('start')
     # df.pop('end')
-    df.index = df_eye['time']
-    df.drop(['start', 'end','time'], axis=1
+    # df.index = df_eye['time']
+    df.drop(['start', 'end'], axis=1
     # df.pop('time')
     # print (df_eye)
-    pass
+    
 
     def concat_df (self):
         """ concat two df """
