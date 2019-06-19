@@ -15,8 +15,8 @@ class ProcessData:
     def __init__(self, fixations: fixations, events: events ):
         self.fixations = pd.read_csv(fixations.path)
         self.events = pd.read_csv(events.path)
-        # self.result = {}
-        # self.metadata = datacont.metadata
+        self.id_num = fixations.id_num
+        self.design = fixations.design
 
     def convert_fixations_to_df (self):
     """ convert file to readeble df"""
@@ -40,6 +40,17 @@ class ProcessData:
         # self.df_files = pd.concat ([df_event, df_eye], axis=1, sort = True)
         # self.df_files = self.df_files.dropna()
         
+
+    id_num = '345'
+    design = '1'
+    data = ()
+
+    index = pd.MultiIndex.from_product([[id_num], [design]],
+                                    names=['ID', 'design']) 
+    columns = pd.MultiIndex.from_product([['time', 'condition', 'aveH', 'aveV']],
+                                        names = [None])
+
+    example_data = pd.DataFrame(data, index=index, columns=columns)
     # exmple:
     # def process(self):
     #     """ Mock processing pipeline """
