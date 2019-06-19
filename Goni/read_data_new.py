@@ -21,13 +21,13 @@ class ProcessData:
         self.design = fixations.design
         self.df_fixations = None
         self.df_events = None
-        # self.cond = events.cond
+        self.df_id = None
 
     def convert_fixations_to_df (self):
         """ convert fixations file to df with multi index include ID and
         design """
                                 
-        df = self.fixations
+        df = self.fixations.copy()
         df['ID'] = self.id_num
         df['design'] = self.design
         time_periods = pd.DataFrame({'time': pd.RangeIndex(start = df.startTime.min(), stop = df.endTime.max())}) #create all time-stamps
@@ -46,7 +46,6 @@ class ProcessData:
         df = self.events.copy()
         start = df.loc[df.loc[:, 'message'].str.contains('BLOCK_START'), :]
         end = df.loc[df.loc[:, 'message'].str.contains('STIM_DISP_END'), :]
-        # block = df.loc[df['message'].str.contains('BLOCK_END'), :]
         df = df.loc[~df.loc[:, 'message'].str.contains('BLOCK_END'), :]
         df['start'] = start.loc[:, 'time']
         df['end'] = end.loc[:, 'time']
@@ -65,11 +64,11 @@ class ProcessData:
         self.df_events = df
 
 
-    def concat_df (self):
-        """ concat two df """
-        # self.df_files = pd.concat ([df_event, df_eye], axis=1, sort = True)
-        # self.df_files = self.df_files.dropna()
-        pass
+    # def concat_df (self):
+    #     """ concat two df """
+    #     self.df_id = pd.concat ([self.df_fixations, self.df_events], axis=1, sort = True)
+    #     self.df_id = self.df_id.dropna()
+        
         
 if __name__ == "__main__":
 
@@ -85,7 +84,9 @@ if __name__ == "__main__":
 
     # print (data1.events)
     data1.read_events()
-    print (data1.df_events)
+    # print (data1.df_events)
+    data1.concat_df()
+    print (data1.df_id)
 
 
 
