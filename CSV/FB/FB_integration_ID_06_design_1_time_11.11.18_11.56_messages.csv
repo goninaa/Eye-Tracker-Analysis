@@ -1,0 +1,188 @@
+message,time
+"!CAL VALIDATION L ABORTED",3739679
+"!CAL 
+>>>>>>> CALIBRATION (HV9,P-CR) FOR LEFT: <<<<<<<<<",3753504
+"!CAL Calibration points:  ",3753504
+"!CAL -25.6, -31.8        -0,    373   ",3753504
+"!CAL -27.6, -38.1        -0,   -718   ",3753504
+"!CAL -26.9, -27.9        -0,   1418   ",3753504
+"!CAL -42.1, -30.7     -2017,    373   ",3753504
+"!CAL -11.7, -31.2      2017,    373   ",3753504
+"!CAL -42.9, -38.0     -2061,   -718   ",3753504
+"!CAL -13.3, -37.4      2061,   -718   ",3753504
+"!CAL -41.2, -23.2     -1975,   1418   ",3753504
+"!CAL -10.2, -24.5      1975,   1418   ",3753504
+"!CAL  0.0,  0.0         0,      0   ",3753504
+"!CAL eye check box: (L,R,T,B)
+	  -47     4   -42     4",3753504
+"!CAL href cal range: (L,R,T,B)
+	-3091  3091 -1252  1951",3753504
+"!CAL Cal coeff:(X=a+bx+cy+dxx+eyy,Y=f+gx+goaly+ixx+jyy)
+     -0  134.41  10.765  0.66211  8.3227 
+   372.64  2.0275  232.38 -0.81266  9.6155",3753504
+"!CAL Prenormalize: offx, offy = -25.645 -31.775",3753504
+"!CAL Quadrant center: centx, centy = 
+  -1.4211e-14  372.64",3753504
+"!CAL Corner correction:
+  -7.9994e-05,  0.00010393 
+  -4.6629e-05, -2.5169e-06 
+   0.00024913,  0.00047309 
+  -0.00013867, -0.0001774 ",3753504
+"!CAL Gains: cx:844.184 lx:833.744 rx:709.244",3753504
+"!CAL Gains: cy:9103.993 ty:602.021 by:21828.379",3753504
+"!CAL Resolution (upd) at screen center: X=0.3, Y=0.0",3753504
+"!CAL Gain Change Proportion: X: 0.176 Y: 35.259",3753504
+"!CAL Y Nonlinearity Proportion too large",3753504
+"!CAL PCR gain ratio(x,y) = 2.390, 2.070",3753504
+"!CAL CR gain match(x,y) = 1.010, 1.010",3753504
+"!CAL Slip rotation correction OFF",3753504
+"!CAL CALIBRATION HV9 L LEFT    GOOD ",3753521
+"!CAL 
+>>>>>>> CALIBRATION (HV9,P-CR) FOR LEFT: <<<<<<<<<",3768099
+"!CAL Calibration points:  ",3768099
+"!CAL -25.5, -33.0        -0,    373   ",3768099
+"!CAL -25.5, -39.1        -0,   -718   ",3768099
+"!CAL -23.6, -26.6        -0,   1418   ",3768099
+"!CAL -39.4, -32.0     -2017,    373   ",3768099
+"!CAL -9.2, -32.8      2017,    373   ",3768099
+"!CAL -32.5, -34.7     -2061,   -718   ",3768099
+"!CAL -12.0, -39.6      2061,   -718   ",3768099
+"!CAL -37.8, -24.4     -1975,   1418   ",3768099
+"!CAL -10.2, -25.1      1975,   1418   ",3768099
+"!CAL  0.0,  0.0         0,      0   ",3768099
+"!CAL eye check box: (L,R,T,B)
+	  -43     4   -44     4",3768099
+"!CAL href cal range: (L,R,T,B)
+	-3091  3091 -1252  1951",3768099
+"!CAL Cal coeff:(X=a+bx+cy+dxx+eyy,Y=f+gx+goaly+ixx+jyy)
+     -0  134.71 -19.618 -0.63536 -3.0963 
+   372.64  5.7399  170.06 -0.51989 -1.4436",3768099
+"!CAL Prenormalize: offx, offy = -25.482 -33.036",3768099
+"!CAL Quadrant center: centx, centy = 
+      0  372.64",3768099
+"!CAL Corner correction:
+  -0.0032622, -0.0021386 
+  -0.00017685, -5.2645e-05 
+  -6.7731e-05,  6.4818e-05 
+   0.00021841, -9.1935e-05 ",3768099
+"!CAL Gains: cx:59.165 lx:90.687 rx:51.859",3768099
+"!CAL Gains: cy:215.617 ty:150.262 by:315.442",3768099
+"!CAL Resolution (upd) at screen center: X=4.4, Y=1.2",3768099
+"!CAL Gain Change Proportion: X: 0.749 Y: 1.099",3768099
+"!CAL Gain Ratio (Gy/Gx) = 3.644",3768099
+"!CAL Cross-Gain Ratios: X=0.302, Y=0.026 ",3768099
+"!CAL Quadrant fixup[0] = 3.999,2.622",3768099
+"!CAL 
+Quadrant fixup too large",3768099
+"!CAL PCR gain ratio(x,y) = 2.234, 2.141",3768099
+"!CAL CR gain match(x,y) = 1.010, 1.010",3768099
+"!CAL Slip rotation correction OFF",3768099
+"!CAL CALIBRATION HV9 L LEFT    GOOD ",3768117
+"!CAL 
+>>>>>>> CALIBRATION (HV9,P-CR) FOR LEFT: <<<<<<<<<",3799653
+"!CAL Calibration points:  ",3799653
+"!CAL -23.3, -27.6        -0,    373   ",3799653
+"!CAL -24.6, -34.1        -0,   -718   ",3799653
+"!CAL -23.2, -20.8        -0,   1418   ",3799653
+"!CAL -38.7, -27.5     -2017,    373   ",3799653
+"!CAL -8.5, -27.9      2017,    373   ",3799653
+"!CAL -39.5, -34.6     -2061,   -718   ",3799653
+"!CAL -10.5, -33.4      2061,   -718   ",3799653
+"!CAL -37.8, -20.5     -1975,   1418   ",3799653
+"!CAL -8.3, -21.1      1975,   1418   ",3799653
+"!CAL  0.0,  0.0         0,      0   ",3799653
+"!CAL eye check box: (L,R,T,B)
+	  -43     4   -38     3",3799653
+"!CAL href cal range: (L,R,T,B)
+	-3091  3091 -1252  1951",3799653
+"!CAL Cal coeff:(X=a+bx+cy+dxx+eyy,Y=f+gx+goaly+ixx+jyy)
+     -0  133.61 -14.014  0.20728  1.878 
+   372.64  2.1559  160.1  0.10246 -0.94834",3799653
+"!CAL Prenormalize: offx, offy = -23.263 -27.56",3799653
+"!CAL Quadrant center: centx, centy = 
+  -7.1054e-15  372.64",3799653
+"!CAL Corner correction:
+  -6.2417e-05,  3.8714e-05 
+  -0.00010431,  9.5581e-05 
+   3.5988e-05,  1.3502e-05 
+  -2.9215e-05, -8.8198e-07 ",3799653
+"!CAL Gains: cx:123.312 lx:116.324 rx:128.840",3799653
+"!CAL Gains: cy:129.332 ty:135.630 by:153.776",3799653
+"!CAL Resolution (upd) at screen center: X=2.1, Y=2.0",3799653
+"!CAL Gain Change Proportion: X: 0.108 Y: 0.134",3799653
+"!CAL Gain Ratio (Gy/Gx) = 1.049",3799653
+"!CAL Cross-Gain Ratios: X=0.033, Y=0.015 ",3799653
+"!CAL Quadrant fixup[0] = 0.062,0.039",3799653
+"!CAL Quadrant fixup[1] = 0.123,0.113",3799653
+"!CAL Quadrant fixup[2] = 0.034,0.013",3799653
+"!CAL Quadrant fixup[3] = 0.068,0.002",3799653
+"!CAL PCR gain ratio(x,y) = 2.173, 1.771",3799653
+"!CAL CR gain match(x,y) = 1.010, 1.010",3799653
+"!CAL Slip rotation correction OFF",3799653
+"!CAL CALIBRATION HV9 L LEFT    GOOD ",3799670
+"!CAL VALIDATION HV9 L LEFT  GOOD ERROR 0.35 avg. 0.84 max  OFFSET 0.16 deg. -5.2,-11.9 pix.",3812737
+"VALIDATE L POINT 0  LEFT  at 960,540  OFFSET 0.41 deg.  -19.6,-25.5 pix.",3812737
+"VALIDATE L POINT 1  LEFT  at 960,216  OFFSET 0.30 deg.  -21.6,5.7 pix.",3812737
+"VALIDATE L POINT 2  LEFT  at 960,863  OFFSET 0.16 deg.  11.0,-4.4 pix.",3812737
+"VALIDATE L POINT 3  LEFT  at 384,540  OFFSET 0.21 deg.  -0.7,16.4 pix.",3812737
+"VALIDATE L POINT 4  LEFT  at 1535,540  OFFSET 0.30 deg.  -4.8,-23.0 pix.",3812737
+"VALIDATE L POINT 5  LEFT  at 453,255  OFFSET 0.10 deg.  -0.8,-7.9 pix.",3812737
+"VALIDATE L POINT 6  LEFT  at 1466,255  OFFSET 0.84 deg.  41.8,-50.3 pix.",3812737
+"VALIDATE L POINT 7  LEFT  at 453,824  OFFSET 0.54 deg.  38.3,13.5 pix.",3812737
+"VALIDATE L POINT 8  LEFT  at 1466,824  OFFSET 0.28 deg.  4.9,22.0 pix.",3812737
+"DRIFTCORRECT L LEFT  at 960,540  OFFSET 0.46 deg.  -25.4,25.1 pix.",3816551
+"RECCFG CR 500 2 1 L",3817037
+"ELCLCFG MLRR",3817037
+"GAZE_COORDS 0.00 0.00 1919.00 1079.00",3817037
+"THRESHOLDS L 49 129",3817037
+"ELCL_WINDOW_SIZES 176 188 0 0",3817037
+"ELCL_PROC CENTROID (3)",3817037
+"ELCL_PCR_PARAM 5 3.0",3817037
+"!MODE RECORD CR 500 2 1 L
+",3817038
+"SYNCTIME at run start:341873.8112",3843282
+"BLOCK_START: 341879.8118.BlockType: Face",3849268
+"STIM_DISP_END: 341885.8122.BlockType: Face",3855269
+"BLOCK_END: 341897.7819.BlockType: Face",3867238
+"BLOCK_START: 341897.8121.BlockType: Person",3867268
+"STIM_DISP_END: 341903.8123.BlockType: Person",3873268
+"BLOCK_END: 341915.7812.BlockType: Person",3885237
+"BLOCK_START: 341915.8115.BlockType: Body",3885267
+"STIM_DISP_END: 341921.8117.BlockType: Body",3891267
+"BLOCK_END: 341933.7812.BlockType: Body",3903237
+"BLOCK_START: 341933.8115.BlockType: Body",3903267
+"STIM_DISP_END: 341939.8117.BlockType: Body",3909267
+"BLOCK_END: 341951.7812.BlockType: Body",3921236
+"BLOCK_START: 341951.8115.BlockType: Face",3921266
+"STIM_DISP_END: 341957.8117.BlockType: Face",3927267
+"BLOCK_END: 341969.7812.BlockType: Face",3939236
+"BLOCK_START: 341969.8114.BlockType: Person",3939266
+"STIM_DISP_END: 341975.8117.BlockType: Person",3945266
+"BLOCK_END: 341987.7813.BlockType: Person",3957235
+"BLOCK_START: 341987.8114.BlockType: Body",3957265
+"STIM_DISP_END: 341993.8117.BlockType: Body",3963266
+"BLOCK_END: 342005.7812.BlockType: Body",3975235
+"BLOCK_START: 342005.8115.BlockType: Person",3975265
+"STIM_DISP_END: 342011.8118.BlockType: Person",3981265
+"BLOCK_END: 342023.7812.BlockType: Person",3993235
+"BLOCK_START: 342023.8114.BlockType: Face",3993265
+"STIM_DISP_END: 342029.8117.BlockType: Face",3999265
+"BLOCK_END: 342041.7812.BlockType: Face",4011234
+"BLOCK_START: 342041.8114.BlockType: Face",4011264
+"STIM_DISP_END: 342047.8116.BlockType: Face",4017264
+"BLOCK_END: 342059.7812.BlockType: Face",4029234
+"BLOCK_START: 342059.8114.BlockType: Body",4029264
+"STIM_DISP_END: 342065.8117.BlockType: Body",4035264
+"BLOCK_END: 342077.7812.BlockType: Body",4047233
+"BLOCK_START: 342077.8114.BlockType: Person",4047263
+"STIM_DISP_END: 342083.8117.BlockType: Person",4053263
+"BLOCK_END: 342095.7812.BlockType: Person",4065233
+"BLOCK_START: 342095.8114.BlockType: Person",4065263
+"STIM_DISP_END: 342101.8118.BlockType: Person",4071263
+"BLOCK_END: 342113.7812.BlockType: Person",4083232
+"BLOCK_START: 342113.8114.BlockType: Face",4083262
+"STIM_DISP_END: 342119.8117.BlockType: Face",4089263
+"BLOCK_END: 342131.7812.BlockType: Face",4101232
+"BLOCK_START: 342131.8114.BlockType: Body",4101262
+"STIM_DISP_END: 342137.8117.BlockType: Body",4107262
+"BLOCK_END: 342149.7812.BlockType: Body",4119232
