@@ -68,7 +68,6 @@ class ProcessData:
         # df = df.set_index(['ID', 'design'])
         self.df_cond = df
 
-
     def merge_df (self):
         """ merge conditions and fixations dataframes into one multi-index
         data frame, with ID and design """
@@ -78,6 +77,13 @@ class ProcessData:
         # df = df.dropna()
         self.df_id = df
         self.df_id = df.set_index(['ID', 'design'])
+
+    def run (self):
+        """ main pipeline """
+        self.create_fixation_df()
+        self.create_cond_df()
+        self.merge_df()
+
 
     class IdData:
         """ data frame of all repetitions of one ID """
@@ -92,15 +98,16 @@ if __name__ == "__main__":
     event_obj = EyeFile(path=event, fname=fix.name, id_num='01', design='1', data_type='events')
 
     data1 = ProcessData(fix_obj, event_obj)
-    # print (data1.fixations)
-    data1.create_fixation_df()
-    # print (data1.df_fixations)
-
-    # print (data1.events)
-    data1.create_cond_df()
-    # print (data1.df_events)
-    data1.merge_df()
+    data1.run()
     print (data1.df_id)
 
+
+  # print (data1.fixations)
+    # data1.create_fixation_df()
+    # # print (data1.df_fixations)
+    # # print (data1.events)
+    # data1.create_cond_df()
+    # # print (data1.df_events)
+    # data1.merge_df()
 
 
