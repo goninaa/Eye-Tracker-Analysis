@@ -20,18 +20,21 @@ class ProcessData:
 
     def convert_fixations_to_df (self):
     """ convert file to readeble df"""
+    index = pd.MultiIndex.from_product([[self.id_num], [self.design]],
+                                    names=['ID', 'design']) 
     df = self.fixations
-    time_periods = pd.DataFrame({'time': pd.date_range(start = df.start.min(), end = df.end.max(), freq = 'S')}) #create all time-stamps
+    time_periods = pd.DataFrame({'time': pd.date_range(start = df.startTime.min(), end = df.endTime.max(), freq = 'S')}) #create all time-stamps
     df = time_periods.merge(df, how='left', left_on='time', right_on='start').fillna(method='pad') #merge
     # print (new_eye.iloc[70:150])
-    mask_eye = (df['time'] > df['start']) & (df['time'] < df['end'])
-    df = df.where(mask_eye)
+    mask = (df['time'] > df['start']) & (df['time'] < df['end'])
+    df = df.where(mask)
     df = df.dropna()
     # print (fixed_eye.iloc[70:150])
-    df.pop('start')
-    df.pop('end')
+    # df.pop('start')
+    # df.pop('end')
     df.index = df_eye['time']
-    df.pop('time')
+    df.drop(['start', 'end','time'], axis=1
+    # df.pop('time')
     # print (df_eye)
     pass
 
