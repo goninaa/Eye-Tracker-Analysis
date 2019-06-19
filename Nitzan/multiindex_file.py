@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-id_num = ['345']*15 
+id_num = ['345']*15
 design = ['1'] *15
 indexes = list(zip(*[id_num,design]))
 

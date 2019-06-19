@@ -11,4 +11,4 @@ photo_x = [0,1080]
 photo_y = [0,1920]
 
 # data:
-fname_data = multiindex
+# fname_data = multiindex_file

@@ -9,4 +9,6 @@ import seaborn as sns
 from params import *
 
 # calling the data
-from fname_data import *
+from multiindex_file import example_data
+
+# Grouping by [x,y]
