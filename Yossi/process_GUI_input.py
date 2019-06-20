@@ -1,6 +1,7 @@
 from pathlib import Path
 import attr
 from attr.validators import instance_of
+from typing import Union
 
 @attr.s(frozen=True)
 class EyeFile:
@@ -15,56 +16,63 @@ class EyeFile:
     design = attr.ib(validator=instance_of(str))
     data_type = attr.ib(validator=instance_of(str))
 
-#########################################################
-# manual data, would be replaced by the GUI             #
-folder = Path('CSV/FB')                                 #
-filelist = [file for file in folder.glob('*.csv')]      #
-ref_images = [  Path('FB_on_full_screen_Body.jpg'),     #
-                Path('FB_on_full_screen_Face.jpg'),     #
-                Path('FB_on_full_screen_Person.jpg')]   #
-resolution = 1080*1920                                  #
-fix_point = (960, 237)                                  #
-#########################################################
-
 @attr.s
 class ProcessFilelist:
     """Processes a list of file.
     Reads attributes from filename and creates a list of EyeFile objects to pass.
-    Attributes: filelist, invalid_files, eyelist.
-    Methods: instantiate_eye_file, validate_fname.
+    Attributes: filelist, invalid_files, eyedict.
+    Methods: instantiate_eye_file, assert_csv, extract_file_attrs.
     """
     filelist = attr.ib(validator=instance_of(list))
     invalid_files = [] ### add invalid files output ###
-    eyelist = {} # nested dict of EyeFile instances to pass forward
+    eyedict = {} # nested dict of EyeFile instances to pass forward
 
-    def instantiate_eye_file(self):
+    def get_file_attrs(self):
         """Analizes file attributes and instantiate EyeFile objects."""
         for eyefile in self.filelist:
             path = Path(eyefile)
             fname = path.name
-            
-            fattrs = fname.split('_')
-            try:
-                experiment, id_num, design, data_type = fattrs[0], fattrs[3], fattrs[5], fattrs[9]
-            except ValueError:
+            if not self.assert_csv(path): # accepts only .csv files
                 self.invalid_files.append(fname)
                 continue
+            
+            fattrs = self.extract_file_attrs(fname)
+            if not fattrs: # accepts files only if named in the appropriate pattern
+                self.invalid_files.append(fname)
+                continue
+            experiment, id_num, design, data_type = fattrs[0], fattrs[3], fattrs[5], fattrs[9]
             
             if 'fix' in data_type:
                 data_type = 'fixations'
             elif 'message' in data_type:
                 data_type = 'events'
-            else:
+            else: # accepts only fixations or messages files
                 self.invalid_files.append(fname)
                 continue
-            eyeitem = EyeFile(path=path, fname=fname, experiment=experiment, id_num=id_num, design=design, data_type=data_type)
-            try:
-                self.eyelist[f'{id_num}_{design}'][data_type] = eyeitem
-            except KeyError:
-                self.eyelist[f'{id_num}_{design}'] = {data_type: eyeitem}
-
+            self.instantiate_eye_file(path, fname, experiment, id_num, design, data_type)
+    
+    def assert_csv(self, path: Path) -> bool:
+        """asserts that a file is a csv file"""
+        return str.lower(path.suffix) == '.csv'
+    
+    def extract_file_attrs(self, fname: str) -> Union[list, bool]:
+        """if the file named appropriately, extracts its attributes from filename"""
+        fattrs = fname.split('_')
+        if len(fattrs) < 9:
+            return False
+        else:
+            return fattrs
+    
+    def instantiate_eye_file(self, path: Path, fname: str, experiment: str, id_num: str, design: str, data_type: str) -> EyeFile:
+        """Instantiate EyeFile objects."""
+        eyeitem = EyeFile(path=path, fname=fname, experiment=experiment, id_num=id_num, design=design, data_type=data_type)
+        try:
+            self.eyedict[f'{id_num}_{design}'][data_type] = eyeitem
+        except KeyError:
+            self.eyedict[f'{id_num}_{design}'] = {data_type: eyeitem}
 
 if __name__ == "__main__":
     files = ProcessFilelist(filelist)
-    files.instantiate_eye_file()
-    print(files.eyelist)
+    files.get_file_attrs()
+    print(files.eyedict)
+    print(files.invalid_files)
