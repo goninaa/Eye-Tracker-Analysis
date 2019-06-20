@@ -2,6 +2,7 @@ import pandas as pd
 import attr
 from attr.validators import instance_of
 from mock_EyeFile_pair import *
+from collections import defaultdict
 
 # @attr.s
 # class ProcessData:
@@ -23,6 +24,7 @@ class IdData:
         self.df_fixations = None
         self.df_cond = None
         self.df_id = None
+        self.cond_dict = defaultdict
 
     def create_fixation_df (self):
         """ convert fixations file to data frame """
@@ -65,6 +67,7 @@ class IdData:
         df.pop('start')
         df.pop('end')
         df.pop('message')
+        df['cond_int'] = df.replace({"condition": di})
         # df = df.set_index(['ID', 'design'])
         self.df_cond = df
 
@@ -76,6 +79,15 @@ class IdData:
         self.df_id = df
         self.df_id = df.set_index(['ID', 'design'])
 
+    def cond_names (self):
+        """ find conditions names and enumrate them """
+        conds_names = {self.df_id[condition]}
+        num = 1
+        for cond in cond_names:
+            self.cond_dict[cond] = num
+            num+=1
+
+
     def run (self):
         """ main pipeline """
         self.create_fixation_df()
@@ -84,20 +96,36 @@ class IdData:
     
 class AllId:
     """ data frame of all IDs designs.
-    from several IdData """
+    from several IdData. gets list of  """
     # def __init__(self, *args):
-    def __init__(self, df1, df2):
-        self.df1 = df1
-        self.df2 = df2
+    def __init__(self,list_all):
+        # self.df1 = df1
+        # self.df2 = df2
+
+        self.df_list = df_list
         self.df_all = None
 
-    def merge_df (self):
+    def merge_df (self, basic_df: pd.DataFrame , df) -> dataframe :
         """ merge IdData.merge_df into one multi-index
         data frame """
-        df_all = pd.concat ([self.df1, self.df2])
+        df_merge = pd.concat ([basic_df, df])
         # df = self.df1.merge(self.df2)
-        df_all = df_all.dropna()
-        self.df_all = df_all
+        df_merge = df_merge.dropna()
+        # self.df_all = df_all
+        return df_merge
+
+    def create_big_data(self):
+        """ """
+        basic_df = self.df_list[0].pop
+        for df in self.df_list:
+            basic_df = self.merge_df(basic_df,df)
+        self.df_all = basic_df
+            
+
+
+
+
+
         
 if __name__ == "__main__":
 
