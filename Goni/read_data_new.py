@@ -94,7 +94,7 @@ class AllId:
 
         self.df_list = df_list
         self.df_all = None
-        self.cond_dict = None
+        self.cond_dict = {}
 
     def merge_df (self, basic_df, df) :
         """ merge IdData.merge_df into one multi-index
@@ -119,13 +119,7 @@ class AllId:
         for cond in conds_names:
             self.cond_dict[f'{cond}'] = num
             num+=1
-        # self.df_cond['cond_int'] = self.df_cond.replace({"condition": self.cond_dict})
         self.df_all = self.df_all.replace({"cond_int": self.cond_dict})
-            
-
-
-
-
 
         
 if __name__ == "__main__":
