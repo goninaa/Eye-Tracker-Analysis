@@ -24,7 +24,7 @@ class IdData:
         self.df_fixations = None
         self.df_cond = None
         self.df_id = None
-        self.cond_dict = defaultdict
+        self.cond_dict = {}
 
     def create_fixation_df (self):
         """ convert fixations file to data frame """
@@ -67,7 +67,6 @@ class IdData:
         df.pop('start')
         df.pop('end')
         df.pop('message')
-        df['cond_int'] = df.replace({"condition": di})
         # df = df.set_index(['ID', 'design'])
         self.df_cond = df
 
@@ -80,18 +79,23 @@ class IdData:
         self.df_id = df.set_index(['ID', 'design'])
 
     def cond_names (self):
-        """ find conditions names and enumrate them """
-        conds_names = {self.df_id[condition]}
+        """ find conditions names and enumrate them in an new column """
+        # cond_dict = defaultdict
+        # cond_dict = {}
+        # conds_names = self.df_id['condition']
+        conds_names = self.df_cond.condition.unique()
         num = 1
-        for cond in cond_names:
-            self.cond_dict[cond] = num
+        for cond in conds_names:
+            self.cond_dict[f'{cond}'] = num
             num+=1
-
+        # self.df_cond['cond_int'] = self.df_cond.replace({"condition": cond_dict})
+        
 
     def run (self):
         """ main pipeline """
         self.create_fixation_df()
         self.create_cond_df()
+        self.cond_names()
         self.merge_df()
     
 class AllId:
@@ -105,7 +109,7 @@ class AllId:
         self.df_list = df_list
         self.df_all = None
 
-    def merge_df (self, basic_df: pd.DataFrame , df) -> dataframe :
+    def merge_df (self, basic_df, df) :
         """ merge IdData.merge_df into one multi-index
         data frame """
         df_merge = pd.concat ([basic_df, df])
@@ -146,9 +150,9 @@ if __name__ == "__main__":
     data2 = IdData(fix_obj2, event_obj2)
     data2.run()
   
-    big_data = AllId (data1.df_id, data2.df_id)
-    big_data.merge_df()
-    print (big_data.df_all)
+    # big_data = AllId (data1.df_id, data2.df_id)
+    # big_data.merge_df()
+    # print (big_data.df_all)
 
     # print (data1.fixations)
     # data1.create_fixation_df()
@@ -157,5 +161,5 @@ if __name__ == "__main__":
     # data1.create_cond_df()
     # # print (data1.df_events)
     # data1.merge_df()
-    # print (data2.df_id)
+    print (data2.df_id)
 
