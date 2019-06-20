@@ -9,11 +9,11 @@ from pathlib import Path
 from PIL import Image
 import matplotlib.image as mpimg
 
-class Visual (self, df, reso, cond_dict, pho_dict):
+class Visual:
     ''' Visuaize the Eye tracker Data
     '''
 
-    def __init__ (self):
+    def __init__ (self, df, reso, cond_dict, pho_dict):
         self.df = df
         self.reso = reso
         self.cond_dict = cond_dict
@@ -65,7 +65,8 @@ class Visual (self, df, reso, cond_dict, pho_dict):
         f, axes = plt.subplots(con_num, 1, figsize=(16, 16),sharex = True, sharey=False)
         
         for ax, cond_key in zip(axes, self.cond_dict):
-            df_cond = df.loc[lambda self.df:self.df['cond_int'] == self.cond_dict[cond_key]]
+            df_cond = self.df['cond_int'] == self.cond_dict[cond_key]
+            # df_cond = self.df.loc[lambda self.df:self.df['cond_int'] == self.cond_dict[cond_key]]
             cond_pho = self.pho_dict[cond_key]
             self.make_heatmap(df_cond,cond_pho,ax)
             ax.title.set_text(str(cond_key))
