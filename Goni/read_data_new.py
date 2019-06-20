@@ -24,7 +24,6 @@ class IdData:
         self.df_fixations = None
         self.df_cond = None
         self.df_id = None
-        self.cond_dict = {}
 
     def create_fixation_df (self):
         """ convert fixations file to data frame """
@@ -67,6 +66,7 @@ class IdData:
         df.pop('start')
         df.pop('end')
         df.pop('message')
+        df['cond_int'] = df['condition']
         # df = df.set_index(['ID', 'design'])
         self.df_cond = df
 
@@ -78,24 +78,10 @@ class IdData:
         self.df_id = df
         self.df_id = df.set_index(['ID', 'design'])
 
-    def cond_names (self):
-        """ find conditions names and enumrate them in an new column """
-        # cond_dict = defaultdict
-        # cond_dict = {}
-        # conds_names = self.df_id['condition']
-        conds_names = self.df_cond.condition.unique()
-        num = 1
-        for cond in conds_names:
-            self.cond_dict[f'{cond}'] = num
-            num+=1
-        # self.df_cond['cond_int'] = self.df_cond.replace({"condition": cond_dict})
-        
-
     def run (self):
         """ main pipeline """
         self.create_fixation_df()
         self.create_cond_df()
-        self.cond_names()
         self.merge_df()
     
 class AllId:
@@ -108,6 +94,7 @@ class AllId:
 
         self.df_list = df_list
         self.df_all = None
+        self.cond_dict = None
 
     def merge_df (self, basic_df, df) :
         """ merge IdData.merge_df into one multi-index
@@ -124,6 +111,16 @@ class AllId:
         for df in self.df_list:
             basic_df = self.merge_df(basic_df,df)
         self.df_all = basic_df
+
+    def cond_names (self):
+        """ replace all conditions names in 'cond_int' column into int"""
+        conds_names = self.df_all.condition.unique()
+        num = 1
+        for cond in conds_names:
+            self.cond_dict[f'{cond}'] = num
+            num+=1
+        # self.df_cond['cond_int'] = self.df_cond.replace({"condition": self.cond_dict})
+        self.df_all = self.df_all.replace({"cond_int": self.cond_dict})
             
 
 
