@@ -24,7 +24,7 @@ class EyeTracker:
         b_data.run()
 
 # nitzan
-
+    
 
     def run (self):
         self.data()
