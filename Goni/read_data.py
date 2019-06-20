@@ -1,7 +1,6 @@
 import pandas as pd
 import attr
 from attr.validators import instance_of
-from mock_EyeFile_pair import *
 from collections import defaultdict
 import time
 
