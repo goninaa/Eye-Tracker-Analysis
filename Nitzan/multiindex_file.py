@@ -7,9 +7,10 @@ def gen_data():
     con =   np.array([1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1])
     aveH =  np.array([2,4,2,6,10,15,14,3,7,8,10,15,10,10,10])
     aveV =  np.array([5,10,5,6,5,15,1,3,12,10,5,15,5,5,5])
+    #con_wrd = ['a','b','b','a','a','a','b','b','b','a','a','b','b','b','a']
     data = np.vstack([times, con, aveH, aveV]).T
-    assert data.shape[1] == 4
-    columns = ['time', 'condition', 'aveH', 'aveV']
+    assert data.shape[1] == 5
+    columns = ['time','condition', 'aveH', 'aveV']
     df = pd.DataFrame(data, columns=columns)
     df['ID'] = '345'
     df['design'] = 1
