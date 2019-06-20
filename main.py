@@ -9,7 +9,7 @@ class EyeTracker:
         self.df_list = []
         pass
 
-# f.eyedict
+# goni
     def data(self):
         """ creates data frame list"""
         for key, value in f.eyedict:
