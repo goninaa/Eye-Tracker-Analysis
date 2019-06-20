@@ -13,17 +13,29 @@ import matplotlib.image as mpimg
 from params import *
 from multiindex_file import gen_data
 from read_data_new import *
-# go be removed later:
+
 
 def get_from_Goni():
     fix = Path('CSV/FB/FB_integration_ID_01_design_1_time_04.11.18_11.43_fixations.csv')
     event = Path('CSV/FB/FB_integration_ID_01_design_1_time_04.11.18_11.43_messages.csv')
     fix_obj = EyeFile(path=fix, fname=fix.name, id_num='01', design='1', data_type='fixations')
-    event_obj = EyeFile(path=event, fname=fix.name, id_num='01', design='1', data_type='events')
-    data1 = ProcessData(fix_obj, event_obj)
-    df = data1.convert_fixations_to_df() 
-    df = data1.df_fixations
-    return df
+    event_obj = EyeFile(path=event, fname=event.name, id_num='01', design='1', data_type='events')
+
+    data1 = IdData(fix_obj, event_obj)
+    data1.run()
+
+    fix2 = Path('CSV/FB/FB_integration_ID_02_design_2_time_04.11.18_13.32_fixations.csv')
+    event2 = Path('CSV/FB/FB_integration_ID_02_design_2_time_04.11.18_13.32_messages.csv')
+    fix_obj2 = EyeFile(path=fix2, fname=fix2.name, id_num='02', design='2', data_type='fixations')
+    event_obj2 = EyeFile(path=event2, fname=fix2.name, id_num='02', design='2', data_type='events')
+
+    data2 = IdData(fix_obj2, event_obj2)
+    data2.run()
+  
+    big_data = AllId ([data1.df_id, data2.df_id])
+    big_data.run()
+
+    return big_data.df_all, big_data.cond_dict
 
 def convert_to_png(fname_photo, new_name):
     jpg = Image.open (fname_photo) 
@@ -62,14 +74,14 @@ def super_grid(df,con_dict, pho_dict):
 
 if __name__ == "__main__":
     
-    df= get_from_Goni()
+    df, cond_dict = get_from_Goni()
     # df = gen_data()
     # df = df.pop('con_wrd')
     # convert_to_png('FB_on_full_screen_Person.jpg', 'Person.png')
     # convert_to_png ('FB_on_full_screen_Face.jpg','Face.png')
     # make_heatmap(df,'Person.png')
-
-    plt.show()
+    # super_grid(df,cond_dict,pho_dict)
+    # plt.show()
 
 
 
