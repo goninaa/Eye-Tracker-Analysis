@@ -7,12 +7,12 @@ from eye_GUI import *
 class EyeTracker:
     def __init__(self):
         self.df_list = []
-        pass
+        self.f.eyedict = None
 
 # goni
     def data(self):
         """ creates data frame list"""
-        for key, value in f.eyedict:
+        for key, value in self.f.eyedict:
             fix_f, event_f = value.values
             data = IdData(fix_f, event_f)
             data.run()
@@ -23,7 +23,8 @@ class EyeTracker:
         b_data = AllId (self.df_list)
         b_data.run()
 
-    
+# nitzan
+
 
     def run (self):
         self.data()
