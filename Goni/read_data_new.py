@@ -87,27 +87,23 @@ class IdData:
 class AllId:
     """ data frame of all IDs designs.
     from several IdData. gets list of  """
-    # def __init__(self, *args):
-    def __init__(self,list_all):
-        # self.df1 = df1
-        # self.df2 = df2
-
+    def __init__(self,df_list):
         self.df_list = df_list
         self.df_all = None
         self.cond_dict = {}
+        self.df_merge = None
 
     def merge_df (self, basic_df, df) :
-        """ merge IdData.merge_df into one multi-index
+        """ merge IdData into one multi-index
         data frame """
         df_merge = pd.concat ([basic_df, df])
-        # df = self.df1.merge(self.df2)
         df_merge = df_merge.dropna()
-        # self.df_all = df_all
+        self.df_merge = df_merge
         return df_merge
 
     def create_big_data(self):
         """ """
-        basic_df = self.df_list[0].pop
+        basic_df = self.df_list.pop(0)
         for df in self.df_list:
             basic_df = self.merge_df(basic_df,df)
         self.df_all = basic_df
@@ -120,6 +116,13 @@ class AllId:
             self.cond_dict[f'{cond}'] = num
             num+=1
         self.df_all = self.df_all.replace({"cond_int": self.cond_dict})
+    
+    def run(self):
+        """ """
+        self.create_big_data()
+        self.cond_names()
+        
+    
 
         
 if __name__ == "__main__":
@@ -141,9 +144,9 @@ if __name__ == "__main__":
     data2 = IdData(fix_obj2, event_obj2)
     data2.run()
   
-    # big_data = AllId (data1.df_id, data2.df_id)
-    # big_data.merge_df()
-    # print (big_data.df_all)
+    big_data = AllId ([data1.df_id, data2.df_id])
+    big_data.run()
+    print (big_data.df_all)
 
     # print (data1.fixations)
     # data1.create_fixation_df()
@@ -152,5 +155,5 @@ if __name__ == "__main__":
     # data1.create_cond_df()
     # # print (data1.df_events)
     # data1.merge_df()
-    print (data2.df_id)
+    # print (data2.df_id)
 
