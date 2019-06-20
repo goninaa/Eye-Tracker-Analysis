@@ -12,6 +12,6 @@ photo_x = [0,1080]
 photo_y = [0,1920]
 
 cond_dict = {'Person':1, 'Face':2}
-pho_dict = {'Person': 'FB_of_full_screen_Person.png','Face': 'FB_of_full_screen_Face.png' }
+pho_dict = {' Person': 'FB_of_full_screen_Person.png',' Face': 'FB_of_full_screen_Face.png' }
 # data:
 # fname_data = multiindex_file

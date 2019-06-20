@@ -37,10 +37,12 @@ def get_from_Goni():
 
     return big_data.df_all, big_data.cond_dict
 
-def convert_to_png(fname_photo, new_name):
-    jpg = Image.open (fname_photo) 
-    png = jpg.save(new_name)
-  
+def convert_to_df_not_object(df):
+    df.pop('condition')
+    df_new = df.infer_objects()
+    return df_new
+
+
 def make_heatmap(df, ph_png):
     #creeating 2d density data : 2d histogram
     raw_x = df['aveH'].to_numpy().ravel()
@@ -60,27 +62,24 @@ def make_heatmap(df, ph_png):
         
     return heat
 
-def super_grid(df,con_dict, pho_dict):
-    con_num = len(con_dict)
+def super_grid(df,cond_dict, pho_dict):
+    con_num = len(cond_dict)
     
     f, axes = plt.subplots(3, 2, figsize=(9, 9), sharex=True, sharey=True)
     
-    for ax, con_ind in zip(axes.flat, con_dict):
-        mask = df.loc['condition'] == con_ind
-        df_cond = df.where(mask)
-        cond_pho = pho_dict[con_ind] 
-        make_heatmap(df_con,cond_pho )
+    for ax, cond_key in zip(axes.flat, cond_dict):
+        df_cond = df.loc[lambda df:df['cond_int'] == cond_dict[cond_key]]
+        # df_cond = df.where(mask)
+        cond_pho = pho_dict[cond_key]
+        make_heatmap(df_cond,cond_pho)
     plt.show()
 
 if __name__ == "__main__":
     
     df, cond_dict = get_from_Goni()
-    # df = gen_data()
-    # df = df.pop('con_wrd')
-    # convert_to_png('FB_on_full_screen_Person.jpg', 'Person.png')
-    # convert_to_png ('FB_on_full_screen_Face.jpg','Face.png')
+    df = convert_to_df_not_object(df)
     # make_heatmap(df,'Person.png')
-    # super_grid(df,cond_dict,pho_dict)
+    super_grid(df,cond_dict,pho_dict)
     # plt.show()
 
 
