@@ -23,8 +23,8 @@ class EyeTracker:
 # goni
     def data(self):
         """ creates data frame list"""
-        for key, value in self.eyedict:
-            fix_f, event_f = value.values
+        for key, value in self.eyedict.items():
+            fix_f, event_f = value.values()
             data = IdData(fix_f, event_f)
             data.run()
             self.df_list.append(data.df_id)
@@ -40,5 +40,12 @@ class EyeTracker:
         visualization = Visual(self.b_data.df_all, self.user_input.screen_res, self.b_data.cond_dict, self.user_input.ref_images)
         visualization.run()
 
+    def run(self):
+        self.input()
+        self.raw_data()
+        self.data()
+        self.big_data()
+        self.visual()
 
-
+if __name__ == "__main__":
+    EyeTracker().run()

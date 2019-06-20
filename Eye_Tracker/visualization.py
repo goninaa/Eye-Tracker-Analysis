@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from pathlib import Path
-from PIL import Image
+# from PIL import Image
 import matplotlib.image as mpimg
 
 class Visual:
@@ -39,8 +39,8 @@ class Visual:
         #creating 2d density data : 2d histogram
         raw_x = self.df['aveH'].to_numpy().ravel()
         raw_y = self.df['aveV'].to_numpy().ravel()
-        bins = [self.reso[0]/10,self.reso[1]/10] #change to tuple
-        range_bins = [[0,self.reso[0]] , [0,self.reso[1]]]
+        bins = [int(self.reso[0])/10,int(self.reso[1])/10] #change to tuple
+        range_bins = [[0,int(self.reso[0])] , [0,int(self.reso[1])]]
         data_2d, x_bin, y_bin = np.histogram2d(raw_x, raw_y, bins=bins, range = range_bins)
         
         #creating the heatmap over the picture:
@@ -68,7 +68,7 @@ class Visual:
             df_cond = self.df['cond_int'] == self.cond_dict[cond_key]
             # df_cond = self.df.loc[lambda self.df:self.df['cond_int'] == self.cond_dict[cond_key]]
             cond_pho = self.pho_dict[cond_key]
-            self.make_heatmap(df_cond,cond_pho,ax)
+            self.make_heatmap(cond_pho,ax)
             ax.title.set_text(str(cond_key))
 
         plt.show()

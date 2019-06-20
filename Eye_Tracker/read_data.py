@@ -105,7 +105,7 @@ class AllId:
         """ main pipeline """
         self.create_big_data()
         self.cond_names()
-        self.df_all.to_csv(f"Data_Frame{pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}.csv")
+        # self.df_all.to_csv(f"Data_Frame{pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}.csv")
 
         
 if __name__ == "__main__":
