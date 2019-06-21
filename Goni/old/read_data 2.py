@@ -1,7 +1,11 @@
 import pandas as pd
 import time
-from pathlib import Path
+from datetime import datetime, timedelta
 from process_GUI_input import *
+
+def mat_to_py_time(matlab_datenum):
+    python_datetime = datetime.fromordinal(int(matlab_datenum)) + timedelta(days=matlab_datenum%1) - timedelta(days = 366)
+    return python_datetime
 
 class IdData:
     """ Pipeline to process data of one ID on one design
@@ -100,18 +104,19 @@ class AllId:
             num+=1
         self.df_all = self.df_all.replace({"cond_int": self.cond_dict})
 
-    def save_csv (self):
-        """ save dataframe into csv file"""
-        output_file = (f"Data_Frame{pd.Timestamp.now().strftime('%Y_%m_%d_%H_%M_%S')}.csv")
-        output_dir = Path('Results')
-        output_dir.mkdir(parents=True, exist_ok=True)
-        self.df_all.to_csv(output_dir / output_file)
-
+    def fix_time (self):
+        """ convert matlab time to unix """
+        self.df_all = self.df_all.rename(columns={'time': 'mat_time'})
+        self.df_all['time'] = self.df_all['mat_time']
+        # df.percent = 0.001*df.popu
+        self.df_all['time'] = mat_to_py_time(self.df_all['time'])
+    
     def run(self):
         """ main pipeline """
         self.create_big_data()
         self.cond_names()
-        self.save_csv()
+        self.fix_time()
+        self.df_all.to_csv(f"Data_Frame{pd.Timestamp.now().strftime('%Y_%m_%d_%H_%M_%S')}.csv")
 
         
 if __name__ == "__main__":
@@ -138,6 +143,4 @@ if __name__ == "__main__":
    
 
     
-
-
 
