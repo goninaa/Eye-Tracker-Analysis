@@ -24,11 +24,11 @@ class ProcessFilelist:
     Methods: instantiate_eye_file, assert_csv, extract_file_attrs.
     """
     filelist = attr.ib(validator=instance_of(list))
-    invalid_files = [] ### add invalid files output ###
+    invalid_files = [] ### should add invalid files output ###
     eyedict = {} # nested dict of EyeFile instances to pass forward
 
-    def get_file_attrs(self):
-        """Analizes file attributes and instantiate EyeFile objects."""
+    def get_file_attrs(self) -> None:
+        """analizes file attributes and instantiate EyeFile objects"""
         for eyefile in self.filelist:
             path = Path(eyefile)
             fname = path.name
@@ -64,7 +64,7 @@ class ProcessFilelist:
             return fattrs
     
     def instantiate_eye_file(self, path: Path, fname: str, experiment: str, id_num: str, design: str, data_type: str) -> EyeFile:
-        """Instantiate EyeFile objects."""
+        """instantiate EyeFile objects"""
         eyeitem = EyeFile(path=path, fname=fname, experiment=experiment, id_num=id_num, design=design, data_type=data_type)
         try:
             self.eyedict[f'{id_num}_{design}'][data_type] = eyeitem

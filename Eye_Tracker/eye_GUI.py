@@ -1,6 +1,7 @@
 from pathlib import Path
 import PySimpleGUI as sg
 import attr
+import platform
 
 @attr.s
 class eye_GUI:
@@ -14,24 +15,25 @@ class eye_GUI:
     screen_res = ()
     fix_point = ()
 
-    def get_user_input(self):
+    def get_user_input(self) -> bool:
         """GUI func to get input from GUI"""
         layout = [
             [sg.Text('Select files or a folder to analyze')],
-            [sg.Text('Files', size=(8, 1)) ,sg.Input(), sg.FilesBrowse()],
+            [sg.Text('Files', size=(8, 1)) ,sg.Input(), sg.FilesBrowse(file_types=(("CSV Files", "*.csv"),)) if platform.system() == 'Windows' else sg.FilesBrowse()],
             [sg.Text('OR Folder', size=(8, 1)), sg.Input(), sg.FolderBrowse()],
-            [],
             [sg.Text('Select sample images for all experimental conditions')],
-            [sg.Text('Images', size=(8,1)), sg.Input(), sg.FilesBrowse()],
-            [sg.Text('Screen resolution'), sg.Input(size=(8,1)), sg.Text('*'), sg.Input(size=(8,1)), 
-                sg.Text('Fixation point'), sg.Input(size=(8,1)), sg.Text('*'), sg.Input(size=(8,1))],
-            [sg.OK(), sg.Cancel()]
+            [sg.Text('Images', size=(8,1)), sg.Input(), sg.FilesBrowse(file_types=(("PNG Files", "*.png"),)) if platform.system() == 'Windows' else sg.FilesBrowse()],
+            [sg.Text('Screen resolution'), sg.Input(default_text='1920', size=(6,1)), sg.Text('*'), sg.Input(default_text='1080', size=(6,1)), 
+                sg.Text('Fixation point'), sg.Input(default_text='960', size=(6,1)), sg.Text('*'), sg.Input(default_text='237', size=(6,1))],
+            [sg.OK(size=(7,1)), sg.Cancel(size=(7,1))]
         ]
 
         window = sg.Window('Eye Tracker Analysis', layout)
-        event, self.values = window.Read()
+        self.event, self.values = window.Read()
+        window.Close()
+        return True if self.event == 'OK' else False
     
-    def get_filelist(self):
+    def get_filelist(self) -> None:
         """Extract filelist from GUI"""
         if self.values[0]:
             self.filelist = self.values[0].split(';')
@@ -41,7 +43,7 @@ class eye_GUI:
         else:
             raise Exception('Folder/files not found')
 
-    def get_ref_images(self):
+    def get_ref_images(self) -> None:
         """Creates dict of reference images"""
         ref_images = self.values[2].split(';')
         image_cond = []
@@ -51,24 +53,26 @@ class eye_GUI:
             image_cond.append(i[0])
         self.ref_images = dict(zip(image_cond, ref_images))
     
-    def get_screen_res(self):
+    def get_screen_res(self) -> None:
         """Extract screen resolution from GUI"""
         self.screen_res = (self.values[3], self.values[4])
 
-    def get_fix_point(self):
+    def get_fix_point(self) -> None:
         """Extract fixation point from GUI"""
         self.fix_point = (self.values[5], self.values[6]) 
     
-    def run(self):
+    def run(self) -> bool:
         """Main function to run the GUI"""
-        self.get_user_input()
+        if not self.get_user_input():
+            return False
         self.get_filelist()
         self.get_ref_images()
         self.get_screen_res()
         self.get_fix_point()
+        return True
 
 if __name__ == "__main__":
     user_input=eye_GUI()
-    user_input.run()
+    assert user_input.run()
     print(user_input.ref_images)
 

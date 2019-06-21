@@ -1,13 +1,11 @@
 import pandas as pd
-import attr
-from attr.validators import instance_of
-from collections import defaultdict
 import time
+from process_GUI_input import *
 
 class IdData:
     """ Pipeline to process data of one ID on one design
     (both fixations and conditions)"""
-    def __init__(self, fixations, events):
+    def __init__(self, fixations: EyeFile, events: EyeFile):
         self.fixations = pd.read_csv(fixations.path)
         self.events = pd.read_csv(events.path)
         self.id_num = fixations.id_num
@@ -70,13 +68,13 @@ class IdData:
 class AllId:
     """ data frame of all IDs designs.
     from several IdData. gets list of  """
-    def __init__(self,df_list):
+    def __init__(self, df_list: pd.DataFrame):
         self.df_list = df_list
         self.df_all = None
         self.cond_dict = {}
         self.df_merge = None
 
-    def merge_df (self, basic_df, df) :
+    def merge_df (self, basic_df: pd.DataFrame, df: pd.DataFrame) -> pd.DataFrame:
         """ merge IdData into one multi-index
         data frame """
         df_merge = pd.concat ([basic_df, df])
