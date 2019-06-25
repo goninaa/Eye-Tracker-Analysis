@@ -1,2 +1,3 @@
 .vscode/
-Yossi/temp.py
+.pytest_cache/
+Eye_Tracker/__pycache__

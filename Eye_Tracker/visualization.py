@@ -1,87 +1,64 @@
-
-#importing packages:
-
-import numpy as np
+import attr
+from attr.validators import instance_of
 import matplotlib
 matplotlib.use("TkAgg")
+import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
-import seaborn as sns
 from pathlib import Path
 # from PIL import Image
-import matplotlib.image as mpimg
+import seaborn as sns
 
+@attr.s
 class Visual:
-    ''' Visuaize the Eye tracker Data
-    '''
+    """Pipeline to visuaize the Eye tracker Data.
+    Attributes: df, screen_res, cond_dict, ref_images.
+    Methods: create_heatmap, plot.
+    """
+    df = attr.ib(validator=instance_of(pd.DataFrame))
+    screen_res = attr.ib(validator=instance_of(tuple))
+    cond_dict = attr.ib(validator=instance_of(dict))
+    ref_images = attr.ib(validator=instance_of(dict))
 
-    def __init__ (self, df, reso, cond_dict, pho_dict):
-        self.df = df
-        self.reso = reso
-        self.cond_dict = cond_dict
-        self.pho_dict = pho_dict
+    def create_heatmap(self, df_cond: pd.DataFrame, ref_img: str, ax) -> None:
+        """Creates a heatmap over a ref_image, in a subplot on a spicifeid ax.
+        The function as 2 steps:
+        1. 2d histogram, using the screen resolotion
+        2. heatmap over the image
+        """
+        # creating 2d density data: 2d histogram
+        raw_x = df_cond['aveH'].to_numpy().ravel()
+        raw_y = df_cond['aveV'].to_numpy().ravel()
+        bins = [int(self.screen_res[0])/10, int(self.screen_res[1])/10] # devide by 10 for better visualization
+        range_bins = [[0,int(self.screen_res[0])], [0,int(self.screen_res[1])]]
+        data_2d, x_bin, y_bin = np.histogram2d(raw_x, raw_y, bins=bins, range=range_bins)
         
-    def convert_to_df_not_object(self):
-        '''
-        takes out the condition as string, leaving only the integer part.
-        then, changes the DF to not be object.
-        '''
-        self.df.pop('condition')
-        self.df = self.df.infer_objects()
-
-    def make_heatmap(self, ph_png,ax):
-        '''
-        creates a heatmap over the photo in the speceafied file name in ph_png.       
-        then, puts it in the spicifeid ax (to be a sbplot)
-        the function as 2 steps: 
-        1. 2 d histogram, using the resolotion (devided by 10 for better visualize)
-        2. heatmap over the map
-        '''
-
-        #creating 2d density data : 2d histogram
-        raw_x = self.df['aveH'].to_numpy().ravel()
-        raw_y = self.df['aveV'].to_numpy().ravel()
-        bins = [int(self.reso[0])/10,int(self.reso[1])/10] #change to tuple
-        range_bins = [[0,int(self.reso[0])] , [0,int(self.reso[1])]]
-        data_2d, x_bin, y_bin = np.histogram2d(raw_x, raw_y, bins=bins, range = range_bins)
-        
-        #creating the heatmap over the picture:
-        heat = sns.heatmap(data_2d.T,cbar = True, cmap = 'Reds', alpha = 0.5, zorder = 2, ax=ax)
-        
-        map_img = mpimg.imread(ph_png)
-        
+        # creating the heatmap over the image:
+        heat = sns.heatmap(data_2d.T, cbar=True, cmap='Reds', alpha=0.5, zorder=2, ax=ax)
+        map_img = mpimg.imread(ref_img)
         heat.imshow(map_img,
-            aspect = heat.get_aspect(),
-            extent = heat.get_xlim() + heat.get_ylim(),
-            zorder = 1, #put the map under the heatmap
-            ) 
-            
-        return heat
+            aspect=heat.get_aspect(),
+            extent=heat.get_xlim() + heat.get_ylim(),
+            zorder=1, # put the map under the heatmap
+            )
 
-    def super_grid(self):
-        ''' makes large subplot to each condition 
-        '''
-
-        con_num = len(self.cond_dict)
-        
-        f, axes = plt.subplots(con_num, 1, figsize=(16, 16),sharex = True, sharey=False)
-        
+    def plot(self) -> None:
+        """Makes large subplot to each condition"""
+        cond_num = len(self.cond_dict)
+        f, axes = plt.subplots(cond_num, 1, figsize=(16, 16), sharex=True, sharey=False)
         for ax, cond_key in zip(axes, self.cond_dict):
-            df_cond = self.df['cond_int'] == self.cond_dict[cond_key]
-            # df_cond = self.df.loc[lambda self.df:self.df['cond_int'] == self.cond_dict[cond_key]]
-            cond_pho = self.pho_dict[cond_key]
-            self.make_heatmap(cond_pho,ax)
+            df_cond = self.df[self.df['cond_int'] == self.cond_dict[cond_key]]
+            try:
+                ref_img = self.ref_images[cond_key]
+            except KeyError:
+                # should change to ask user input
+                raise KeyError('reference images do not match experimental conditions.')
+            self.create_heatmap(df_cond, ref_img, ax)
             ax.title.set_text(str(cond_key))
-
+        # need to correct axes (*10), aspect ratio
         plt.show()
-
-    def run(self):
-        '''main pipeline'''
-        self.convert_to_df_not_object()
-        self.super_grid()        
-
 
 
 if __name__ == "__main__":
     pass
-    
