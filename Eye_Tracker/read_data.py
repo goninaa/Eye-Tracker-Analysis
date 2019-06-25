@@ -8,7 +8,7 @@ from process_GUI_input import *
 class IdData:
     """Pipeline to process data of one ID on one design (both fixations and conditions).
     Attributes: fixations, events, id_num, design, df_fixations, df_cond, df_id.
-    Methods: create_fixation_df, create_cond_df, merge_df, run.
+    Methods: create_fixation_df, create_cond_df, merge_df, run count_data.
     """
     def __init__(self, fixations: EyeFile, events: EyeFile):
         self.fixations = pd.read_csv(fixations.path)
@@ -54,6 +54,16 @@ class IdData:
         df = df.dropna()
         self.df_id = df.set_index(['ID', 'design'])
 
+    def count_df(self) -> None:
+        """Optional function. Does not call by func run(). Incompatible with func merge_df().
+        Merges conditions and fixations dataframes into one multi-index data frame, 
+        with the count of time as data, and ID, design and condition as multi-index
+        """
+        df = self.df_fixations.merge(self.df_cond, on='time')
+        df = df.dropna()
+        df = df.groupby(['condition', 'aveH', 'aveV']).count()
+        self.df_id = df.reset_index().set_index(['ID', 'design', 'condition'])
+    
     def run(self) -> None:
         """Main pipeline"""
         self.create_fixation_df()
