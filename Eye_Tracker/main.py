@@ -9,7 +9,7 @@ class EyeTracker:
     Attributes: user_input, eyedict, df_list, b_data, visual.
     Methods:
     method input() prompts for user input.
-    method rea_data() creates raw data objects for each file.
+    method read_data() creates raw data objects for each file.
     method data() converts data of each trail to a pd.Dataframe.
     method big_data() creates one big pd.DataFrame from all data frames of a given experiment.
     method visualization() analyzes and outputs visualization of the experiment.
