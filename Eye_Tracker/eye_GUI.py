@@ -1,19 +1,19 @@
-from pathlib import Path
-import PySimpleGUI as sg
 import attr
+from pathlib import Path
 import platform
+import PySimpleGUI as sg
 
 @attr.s
 class eye_GUI:
     """Main GUI for Eye Tracker Analysis.
     Recieves from user files/folder, reference images, screen resolution and fixation point.
     Attributes: filelist, ref_images, screen_res, fix_point, values.
-    Methods: get_user_input, get_filelist, get_ref_images, get_screen_res, get_fix_point.
+    Methods: get_user_input, get_filelist, get_ref_images, get_screen_res, get_fix_point, run.
     """
-    filelist = []
-    ref_images = {}
-    screen_res = ()
-    fix_point = ()
+    filelist = attr.ib(default=attr.Factory(list))
+    ref_images = attr.ib(default=attr.Factory(dict))
+    screen_res = attr.ib(default=attr.Factory(tuple))
+    fix_point = attr.ib(default=attr.Factory(tuple))
 
     def get_user_input(self) -> bool:
         """GUI func to get input from GUI"""
@@ -24,14 +24,14 @@ class eye_GUI:
             [sg.Text('Select sample images for all experimental conditions')],
             [sg.Text('Images', size=(8,1)), sg.Input(), sg.FilesBrowse(file_types=(("PNG Files", "*.png"),)) if platform.system() == 'Windows' else sg.FilesBrowse()],
             [sg.Text('Screen resolution'), sg.Input(default_text='1920', size=(6,1)), sg.Text('*'), sg.Input(default_text='1080', size=(6,1)), 
-                sg.Text('Fixation point'), sg.Input(default_text='960', size=(6,1)), sg.Text('*'), sg.Input(default_text='237', size=(6,1))],
+                sg.Text('Fixation point'), sg.Input(size=(6,1)), sg.Text('*'), sg.Input(size=(6,1))],
             [sg.OK(size=(7,1)), sg.Cancel(size=(7,1))]
         ]
 
         window = sg.Window('Eye Tracker Analysis', layout)
-        self.event, self.values = window.Read()
+        event, self.values = window.Read()
         window.Close()
-        return True if self.event == 'OK' else False
+        return True if event == 'OK' else False
     
     def get_filelist(self) -> None:
         """Extract filelist from GUI"""
@@ -71,8 +71,8 @@ class eye_GUI:
         self.get_fix_point()
         return True
 
+
 if __name__ == "__main__":
     user_input=eye_GUI()
     assert user_input.run()
     print(user_input.ref_images)
-
