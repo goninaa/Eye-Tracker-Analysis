@@ -81,7 +81,7 @@ class AllId:
     cond_dict = attr.ib(default=attr.Factory(dict))
 
     def merge_df(self, basic_df: pd.DataFrame, df: pd.DataFrame) -> pd.DataFrame:
-        """Appends dataframe given by create_big)data func into one multi-index data frame"""
+        """Appends dataframe given by create_big_data func into one multi-index data frame"""
         df_merge = pd.concat([basic_df, df])
         df_merge = df_merge.dropna()
         return df_merge
